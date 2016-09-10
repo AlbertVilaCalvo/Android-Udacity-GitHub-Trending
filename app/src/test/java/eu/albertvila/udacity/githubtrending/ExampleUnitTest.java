@@ -1,4 +1,4 @@
-package eu.albertvila.githubtrending;
+package eu.albertvila.udacity.githubtrending;
 
 import org.junit.Test;
 
