@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "454133369377",
+    "firebase_url": "https://udacity-project-githubtrending.firebaseio.com",
+    "project_id": "udacity-project-githubtrending",
+    "storage_bucket": "udacity-project-githubtrending.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454133369377:android:aa25c7f275ce45cd",
+        "android_client_info": {
+          "package_name": "eu.albertvila.udacity.githubtrending"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454133369377-mj01ff0ovdkgvb8qqsbllgokm85q2hmu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "eu.albertvila.udacity.githubtrending",
+            "certificate_hash": "41C9CCF732982ADF1A1E08EB334108199751FE04"
+          }
+        },
+        {
+          "client_id": "454133369377-23hc82913cd1bs09u3cn7k4r2f7euq4h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNJ-kH4khp9kg_rQsnHb4_J-cWjbB5llM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454133369377-23hc82913cd1bs09u3cn7k4r2f7euq4h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
