@@ -3,6 +3,8 @@ package eu.albertvila.udacity.githubtrending;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,10 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
+    RecyclerView recyclerView;
+    ReposAdapter reposAdapter;
+    List<String> repos = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Load the ad
-        AdView adView = (AdView) findViewById(R.id.adView);
+        AdView adView = (AdView) findViewById(R.id.main_adView);
         AdRequest adRequest = new AdRequest.Builder()
                 // https://firebase.google.com/docs/admob/android/targeting#test_ads
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -46,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         adView.loadAd(adRequest);
 
+        // Setup RecyclerView
+        reposAdapter = new ReposAdapter(repos);
+        recyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(reposAdapter);
+
+        // Fetch repos
         getData()
                 .subscribeOn(Schedulers.io())
                 .map(new Function<String, List<String>>() {
@@ -66,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onNext(List<String> value) {
                         Timber.d("onNext: %s", value);
+                        repos.clear();
+                        repos.addAll(value);
+                        reposAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -78,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
                         Timber.i("onComplete");
                     }
                 });
-
 
         /*
         OkHttpClient client = new OkHttpClient();
