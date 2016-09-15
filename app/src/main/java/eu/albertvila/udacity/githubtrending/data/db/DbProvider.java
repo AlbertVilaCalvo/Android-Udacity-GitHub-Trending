@@ -2,11 +2,33 @@ package eu.albertvila.udacity.githubtrending.data.db;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 public class DbProvider extends ContentProvider {
-    public DbProvider() {
+
+    // Maps a URI to a table
+    private static final int CODE_ALL_REPOS = 100;
+
+    // Maps a URI to an int
+    private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
+
+    static {
+        URI_MATCHER.addURI(DbContract.AUTHORITY, DbContract.Repo.PATH, CODE_ALL_REPOS);
+    }
+
+    private SQLiteOpenHelper sqLiteOpenHelper;
+
+    @Override
+    public boolean onCreate() {
+        // Initialize your content provider on startup
+        // See https://developer.android.com/guide/topics/providers/content-provider-creating.html#OnCreate
+        sqLiteOpenHelper = new DbOpenHelper(getContext());
+
+        // return true if the provider was successfully loaded
+        return true;
     }
 
     @Override
@@ -26,12 +48,6 @@ public class DbProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         // TODO: Implement this to handle requests to insert a new row.
         throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    @Override
-    public boolean onCreate() {
-        // TODO: Implement this to initialize your content provider on startup.
-        return false;
     }
 
     @Override
