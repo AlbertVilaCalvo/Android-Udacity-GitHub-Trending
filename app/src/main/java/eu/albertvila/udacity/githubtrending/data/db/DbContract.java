@@ -21,6 +21,7 @@ public class DbContract {
     public interface Repo extends BaseColumns {
         String TABLE_NAME = "repo";
         String PATH = "repo";
+        Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, PATH);
         // Columns
         String URL = "url";
     }

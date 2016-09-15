@@ -11,6 +11,9 @@ import android.support.annotation.NonNull;
 
 public class DbProvider extends ContentProvider {
 
+    // Example of ContentProvider:
+    // https://github.com/udacity/ud845-Pets/blob/lesson-four/app/src/main/java/com/example/android/pets/data/PetProvider.java
+
     // Maps a URI to a table
     private static final int MATCH_ALL_REPOS = 100;
 
@@ -35,8 +38,8 @@ public class DbProvider extends ContentProvider {
 
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
-        int match = URI_MATCHER.match(uri);
         long id;
+        int match = URI_MATCHER.match(uri);
         switch (match) {
             case MATCH_ALL_REPOS:
                 id = sqLiteOpenHelper
@@ -54,8 +57,8 @@ public class DbProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        int match = URI_MATCHER.match(uri);
         int deletedRowCount;
+        int match = URI_MATCHER.match(uri);
         switch (match) {
             case MATCH_ALL_REPOS:
                 deletedRowCount = sqLiteOpenHelper
@@ -76,8 +79,8 @@ public class DbProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        int match = URI_MATCHER.match(uri);
         int updatedRowCount;
+        int match = URI_MATCHER.match(uri);
         switch (match) {
             case MATCH_ALL_REPOS:
                 updatedRowCount = sqLiteOpenHelper
@@ -96,16 +99,41 @@ public class DbProvider extends ContentProvider {
     }
 
     @Override
+    public Cursor query(Uri uri, String[] projection, String selection,
+                        String[] selectionArgs, String sortOrder) {
+        Cursor cursor;
+        int match = URI_MATCHER.match(uri);
+        switch (match) {
+            case MATCH_ALL_REPOS:
+                cursor = sqLiteOpenHelper
+                        .getReadableDatabase()
+                        .query(
+                                DbContract.Repo.TABLE_NAME,
+                                projection,
+                                selection,
+                                selectionArgs,
+                                null,
+                                null,
+                                sortOrder
+                        );
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid query Uri: " + uri);
+        }
+
+        // Set notification URI on the Cursor,
+        // so we know what content URI the Cursor was created for.
+        // If the data at this URI changes, then we know we need to update the Cursor.
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        return cursor;
+    }
+
+    @Override
     public String getType(Uri uri) {
         // TODO: Implement this to handle requests for the MIME type of the data
         // at the given URI.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
-                        String[] selectionArgs, String sortOrder) {
-        // TODO: Implement this to handle query requests from clients.
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 }
