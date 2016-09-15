@@ -131,9 +131,14 @@ public class DbProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        // TODO: Implement this to handle requests for the MIME type of the data
-        // at the given URI.
-        throw new UnsupportedOperationException("Not yet implemented");
+        // Handle requests for the MIME type of the data
+        int match = URI_MATCHER.match(uri);
+        switch (match) {
+            case MATCH_ALL_REPOS:
+                return DbContract.Repo.MIME_TYPE_DIR;
+            default:
+                return null;
+        }
     }
 
 }

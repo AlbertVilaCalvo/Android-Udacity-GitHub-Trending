@@ -22,6 +22,16 @@ public class DbContract {
         String TABLE_NAME = "repo";
         String PATH = "repo";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, PATH);
+        // https://developer.android.com/guide/topics/providers/content-provider-creating.html#TableMIMETypes
+        String MIME_TYPE_DIR = String.format("%s/vnd.%s.%s",
+            ContentResolver.CURSOR_DIR_BASE_TYPE,
+            AUTHORITY,
+            PATH
+        );
+        // This is also correct:
+//        String MIME_TYPE_DIR =
+//                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + AUTHORITY + "/" + PATH;
+
         // Columns
         String URL = "url";
     }
