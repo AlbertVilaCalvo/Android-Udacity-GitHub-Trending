@@ -44,7 +44,7 @@ public class DbProvider extends ContentProvider {
                         .insertOrThrow(DbContract.Repo.TABLE_NAME, null, values);
                 break;
             default:
-                throw new IllegalArgumentException("Invalid Uri: " + uri);
+                throw new IllegalArgumentException("Invalid insert Uri: " + uri);
         }
 
         getContext().getContentResolver().notifyChange(uri, null);
@@ -63,7 +63,7 @@ public class DbProvider extends ContentProvider {
                         .delete(DbContract.Repo.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException("Invalid Uri: " + uri);
+                throw new IllegalArgumentException("Invalid delete Uri: " + uri);
         }
 
         if (deletedRowCount != 0) {
@@ -71,6 +71,28 @@ public class DbProvider extends ContentProvider {
         }
 
         return deletedRowCount;
+    }
+
+    @Override
+    public int update(Uri uri, ContentValues values, String selection,
+                      String[] selectionArgs) {
+        int match = URI_MATCHER.match(uri);
+        int updatedRowCount;
+        switch (match) {
+            case MATCH_ALL_REPOS:
+                updatedRowCount = sqLiteOpenHelper
+                        .getWritableDatabase()
+                        .update(DbContract.Repo.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid update Uri: " + uri);
+        }
+
+        if (updatedRowCount != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return updatedRowCount;
     }
 
     @Override
@@ -84,13 +106,6 @@ public class DbProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
         // TODO: Implement this to handle query requests from clients.
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    @Override
-    public int update(Uri uri, ContentValues values, String selection,
-                      String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }
