@@ -19,7 +19,7 @@ public class DbContract {
             .build();
 
     public interface Repo extends BaseColumns {
-        String TABLE = "repo";
+        String TABLE_NAME = "repo";
         String PATH = "repo";
         // Columns
         String URL = "url";

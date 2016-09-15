@@ -41,7 +41,7 @@ public class DbProvider extends ContentProvider {
             case MATCH_ALL_REPOS:
                 id = sqLiteOpenHelper
                         .getWritableDatabase()
-                        .insertOrThrow(DbContract.Repo.TABLE, null, values);
+                        .insertOrThrow(DbContract.Repo.TABLE_NAME, null, values);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid Uri: " + uri);
@@ -54,8 +54,23 @@ public class DbProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        int match = URI_MATCHER.match(uri);
+        int deletedRowCount;
+        switch (match) {
+            case MATCH_ALL_REPOS:
+                deletedRowCount = sqLiteOpenHelper
+                        .getWritableDatabase()
+                        .delete(DbContract.Repo.TABLE_NAME, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid Uri: " + uri);
+        }
+
+        if (deletedRowCount != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return deletedRowCount;
     }
 
     @Override

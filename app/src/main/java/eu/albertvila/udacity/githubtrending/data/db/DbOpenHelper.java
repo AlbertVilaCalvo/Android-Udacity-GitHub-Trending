@@ -14,7 +14,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "repo.db";
 
     private static final String CREATE_REPO_TABLE = ""
-            + "CREATE TABLE " + DbContract.Repo.TABLE + "("
+            + "CREATE TABLE " + DbContract.Repo.TABLE_NAME + "("
             + DbContract.Repo._ID + " INTEGER NOT NULL PRIMARY KEY,"
             + DbContract.Repo.URL + " TEXT NOT NULL"
             + ")";
