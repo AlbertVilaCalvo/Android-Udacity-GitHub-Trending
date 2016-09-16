@@ -40,23 +40,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Load the ad
-        AdView adView = (AdView) findViewById(R.id.main_adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                // https://firebase.google.com/docs/admob/android/targeting#test_ads
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("D7A3AA3A1DAE36977EE1652523B33CBD")
-                .build();
-        adView.loadAd(adRequest);
+        loadBannerAd();
 
-        // Setup RecyclerView
-        reposAdapter = new ReposAdapter(repos);
-        recyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(reposAdapter);
+        setupRecyclerView();
 
         // Fetch repos
         getData()
@@ -115,6 +105,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         */
+    }
+
+    private void loadBannerAd() {
+        AdView adView = (AdView) findViewById(R.id.main_adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                // https://firebase.google.com/docs/admob/android/targeting#test_ads
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("D7A3AA3A1DAE36977EE1652523B33CBD")
+                .build();
+        adView.loadAd(adRequest);
+    }
+
+    private void setupRecyclerView() {
+        reposAdapter = new ReposAdapter(repos);
+        recyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(reposAdapter);
     }
 
     private Observable<String> getData() {
