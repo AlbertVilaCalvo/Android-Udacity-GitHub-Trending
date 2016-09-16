@@ -33,7 +33,7 @@ public class DbContract {
 //                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + AUTHORITY + "/" + PATH;
 
         // Columns
-        String URL = "url";
+        String COLUMN_URL = "url";
     }
 
 }

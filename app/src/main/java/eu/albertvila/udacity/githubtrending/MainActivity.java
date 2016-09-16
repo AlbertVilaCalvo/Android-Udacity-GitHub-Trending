@@ -1,7 +1,11 @@
 package eu.albertvila.udacity.githubtrending;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
@@ -30,7 +35,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int LOADER_REPOS = 0;
+
+    // Columns to select from DB
+    private static final String[] COLUMNS_PROJECTION = {
+            DbContract.Repo.COLUMN_URL
+    };
 
     RecyclerView recyclerView;
     ReposAdapter reposAdapter;
@@ -40,13 +53,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         loadBannerAd();
 
         setupRecyclerView();
+
+        getSupportLoaderManager().initLoader(LOADER_REPOS, null, this);
 
         // Fetch repos
         getData()
@@ -139,6 +154,38 @@ public class MainActivity extends AppCompatActivity {
                 return html;
             }
         });
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Loader<Cursor> loader;
+
+        switch (id) {
+            case LOADER_REPOS:
+                loader =  new CursorLoader(
+                        this,
+                        DbContract.Repo.CONTENT_URI,
+                        COLUMNS_PROJECTION,
+                        null, // all
+                        null,
+                        null // default order
+                );
+                break;
+            default:
+                loader = null;
+        }
+
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 
     @Override
