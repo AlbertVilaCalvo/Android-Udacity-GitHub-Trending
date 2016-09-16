@@ -16,20 +16,10 @@ import android.view.MenuItem;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.observers.DefaultObserver;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -46,8 +36,7 @@ public class MainActivity extends AppCompatActivity
     };
 
     RecyclerView recyclerView;
-    ReposAdapter reposAdapter;
-    List<String> repos = new ArrayList<>();
+    ReposCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +53,7 @@ public class MainActivity extends AppCompatActivity
         getSupportLoaderManager().initLoader(LOADER_REPOS, null, this);
 
         // Fetch repos
+        /*
         getData()
                 .subscribeOn(Schedulers.io())
                 .map(new Function<String, List<String>>() {
@@ -99,6 +89,7 @@ public class MainActivity extends AppCompatActivity
                         Timber.i("onComplete");
                     }
                 });
+        */
 
         /*
         OkHttpClient client = new OkHttpClient();
@@ -133,10 +124,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupRecyclerView() {
-        reposAdapter = new ReposAdapter(repos);
+        adapter = new ReposCursorAdapter();
         recyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(reposAdapter);
+        recyclerView.setAdapter(adapter);
     }
 
     private Observable<String> getData() {
@@ -180,12 +171,19 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        if (data == null || data.getCount() == 0) {
+            Timber.d("onLoadFinished() null or empty");
+            adapter.swapCursor(null);
+            // TODO show progress
+            // TODO download data
+        } else {
+            adapter.swapCursor(data);
+        }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        adapter.swapCursor(null);
     }
 
     @Override
