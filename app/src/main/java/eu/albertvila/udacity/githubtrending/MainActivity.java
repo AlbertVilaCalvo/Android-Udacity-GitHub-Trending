@@ -1,5 +1,6 @@
 package eu.albertvila.udacity.githubtrending;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,10 +17,21 @@ import android.view.MenuItem;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.observers.DefaultObserver;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -51,6 +63,51 @@ public class MainActivity extends AppCompatActivity
         setupRecyclerView();
 
         getSupportLoaderManager().initLoader(LOADER_REPOS, null, this);
+
+        getData()
+                .subscribeOn(Schedulers.io())
+                .map(new Function<String, List<String>>() {
+                    @Override
+                    public List<String> apply(String html) throws Exception {
+                        Document document = Jsoup.parse(html);
+                        Elements elements = document.select(".repo-list-name > a");
+                        List<String> urls = new ArrayList<>();
+                        for (int i = 0; i < elements.size(); i++) {
+                            urls.add(elements.get(i).attr("href"));
+                        }
+                        Timber.d("urls %s", urls);
+                        return urls;
+                    }
+                })
+                .doOnNext(new Consumer<List<String>>() {
+                    @Override
+                    public void accept(List<String> strings) throws Exception {
+                        // Delete all items in DB
+                        getContentResolver().delete(DbContract.Repo.CONTENT_URI, null, null);
+                        // Save to DB
+                        for (int i = 0; i < strings.size(); i++) {
+                            ContentValues values = new ContentValues();
+                            values.put(DbContract.Repo.COLUMN_URL, strings.get(i));
+                            getContentResolver()
+                                    .insert(DbContract.Repo.CONTENT_URI, values);
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<List<String>>() {
+                    @Override
+                    public void onNext(List<String> value) {
+                        Timber.d("onNext: %s", value);
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "onError");
+                    }
+                    @Override
+                    public void onComplete() {
+                        Timber.i("onComplete");
+                    }
+                });
 
         // Fetch repos
         /*
