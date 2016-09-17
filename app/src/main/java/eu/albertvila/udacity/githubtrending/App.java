@@ -2,6 +2,7 @@ package eu.albertvila.udacity.githubtrending;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.google.android.gms.ads.MobileAds;
 
 import timber.log.Timber;
@@ -23,6 +24,9 @@ public class App extends Application {
                 return super.createStackElementTag(element) + ":" + element.getLineNumber();
             }
         });
+
+        // Database Inspection
+        Stetho.initializeWithDefaults(this);
 
         // Initialize the Google Mobile Ads SDK
         // https://firebase.google.com/docs/admob/android/quick-start#initialize_the_google_mobile_ads_sdk
