@@ -9,4 +9,7 @@
     <!-- This is a testing ad ID. It is against AdMob policy to click on your own live ads during
     development and testing. Should be replaced with a real ID. -->
     <string name="test_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <!-- Sync Adapter -->
+    <string name="authenticator_account_type">account.albertvila.eu</string>
 </resources>

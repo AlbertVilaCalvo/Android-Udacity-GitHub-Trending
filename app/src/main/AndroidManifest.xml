@@ -30,11 +30,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="eu.albertvila.udacity.githubtrending.MainActivity"/>
         </activity>
+
         <provider
             android:name=".data.db.DbProvider"
             android:authorities="eu.albertvila.udacity.githubtrending.provider"
-            android:exported="false">
+            android:exported="false"
+            android:syncable="true">
         </provider>
+
+        <service
+            android:name=".data.sync.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+                <meta-data
+                    android:name="android.accounts.AccountAuthenticator"
+                    android:resource="@xml/authenticator"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
