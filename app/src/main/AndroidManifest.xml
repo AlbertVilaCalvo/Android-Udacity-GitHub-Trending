@@ -4,6 +4,14 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- You need this permission in order to call getIsSyncable() -->
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <!-- Required to enable our SyncAdapter after it's created.
+     Need this permission in order to set periodic sync adapter runs using addPeriodicSync().
+     Not required to call requestSync() -->
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -33,19 +41,30 @@
 
         <provider
             android:name=".data.db.DbProvider"
-            android:authorities="eu.albertvila.udacity.githubtrending.provider"
+            android:authorities="@string/content_provider_authority"
             android:exported="false"
             android:syncable="true">
         </provider>
 
-        <service
-            android:name=".data.sync.AuthenticatorService">
+        <service android:name=".data.sync.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
                 <meta-data
                     android:name="android.accounts.AccountAuthenticator"
                     android:resource="@xml/authenticator"/>
             </intent-filter>
+        </service>
+
+        <service
+            android:name=".data.sync.SyncService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
         </service>
     </application>
 

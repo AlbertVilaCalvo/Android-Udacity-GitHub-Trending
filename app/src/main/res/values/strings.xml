@@ -10,6 +10,9 @@
     development and testing. Should be replaced with a real ID. -->
     <string name="test_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 
+    <!-- ContentProvider authority. Must be the same string than DbContract.AUTHORITY -->
+    <string name="content_provider_authority">eu.albertvila.udacity.githubtrending.provider</string>
+
     <!-- Sync Adapter -->
     <string name="authenticator_account_type">account.albertvila.eu</string>
 </resources>

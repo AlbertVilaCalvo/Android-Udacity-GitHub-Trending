@@ -11,6 +11,7 @@ import eu.albertvila.udacity.githubtrending.BuildConfig;
  */
 public class DbContract {
 
+    // Important: this constant *must* be the same as the string resource content_provider_authority
     public static final String AUTHORITY = String.format("%s.provider", BuildConfig.APPLICATION_ID);
 
     public static final Uri AUTHORITY_URI = new Uri.Builder()

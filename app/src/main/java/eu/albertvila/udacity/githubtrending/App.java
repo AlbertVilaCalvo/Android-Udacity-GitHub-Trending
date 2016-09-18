@@ -1,5 +1,7 @@
 package eu.albertvila.udacity.githubtrending;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
@@ -31,5 +33,21 @@ public class App extends Application {
         // Initialize the Google Mobile Ads SDK
         // https://firebase.google.com/docs/admob/android/quick-start#initialize_the_google_mobile_ads_sdk
         MobileAds.initialize(this, getString(R.string.admob_app_id));
+
+        // We must create an account for the SyncAdapter to run
+        createAccount();
     }
+
+    private void createAccount() {
+        AccountManager accountManager = AccountManager.get(this);
+
+        Account newAccount = new Account(
+                getString(R.string.app_name),
+                getString(R.string.authenticator_account_type));
+
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+            
+        }
+    }
+
 }
