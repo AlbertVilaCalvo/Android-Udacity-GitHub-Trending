@@ -1,4 +1,4 @@
-package eu.albertvila.udacity.githubtrending;
+package eu.albertvila.udacity.githubtrending.ui;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import eu.albertvila.udacity.githubtrending.R;
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import eu.albertvila.udacity.githubtrending.data.sync.SyncUtils;
 import io.reactivex.Observable;

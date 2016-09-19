@@ -1,4 +1,4 @@
-package eu.albertvila.udacity.githubtrending;
+package eu.albertvila.udacity.githubtrending.ui;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import eu.albertvila.udacity.githubtrending.R;
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 
 /**

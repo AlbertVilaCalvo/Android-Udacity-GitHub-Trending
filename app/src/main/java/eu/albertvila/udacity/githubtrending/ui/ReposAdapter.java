@@ -1,4 +1,4 @@
-package eu.albertvila.udacity.githubtrending;
+package eu.albertvila.udacity.githubtrending.ui;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import eu.albertvila.udacity.githubtrending.R;
 
 /**
  * Created by Albert Vila Calvo on 13/9/16.
