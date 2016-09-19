@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import eu.albertvila.udacity.githubtrending.R;
+import eu.albertvila.udacity.githubtrending.data.Settings;
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import timber.log.Timber;
 
@@ -16,6 +17,8 @@ import timber.log.Timber;
 public class SyncUtils {
 
     private static SyncUtils instance;
+
+    public static final String GITHUB_URL_KEY = "github_url";
 
     public static synchronized SyncUtils get(Context context) {
         if (instance == null) {
@@ -76,6 +79,10 @@ public class SyncUtils {
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+
+        // When we run an expedited sync, we must pass the URL using the Bundle. Otherwise we don't
+        // get the latest URL value in the SyncAdapter because it runs in a different process
+        bundle.putString(GITHUB_URL_KEY, Settings.get(context).getGitHubUrl());
 
         ContentResolver.requestSync(account, DbContract.AUTHORITY, bundle);
     }

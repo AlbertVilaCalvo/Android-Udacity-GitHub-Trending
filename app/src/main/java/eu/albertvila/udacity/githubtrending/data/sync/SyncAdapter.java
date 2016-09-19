@@ -42,10 +42,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     @Override
-    public void onPerformSync(Account account, Bundle bundle, String s, final ContentProviderClient contentProviderClient, SyncResult syncResult) {
+    public void onPerformSync(Account account, Bundle bundle, String authority, final ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Timber.d("onPerformSync()");
 
+        // When we update SharedPreferences and then run an expedited sync, calling
+        // Settings.get(getContext()).getGitHubUrl() may not give us the latest value because the
+        // SyncAdapter runs in a different process. Hence we must pass the URL using the Bundle.
+        // However for periodic syncs we are not passing any value with the Bundle.
         String gitHubUrl = Settings.get(getContext()).getGitHubUrl();
+        if (bundle.containsKey(SyncUtils.GITHUB_URL_KEY)) {
+            gitHubUrl = bundle.getString(SyncUtils.GITHUB_URL_KEY);
+        }
 
         Timber.d("onPerformSync() GitHub Url: %s", gitHubUrl);
 
