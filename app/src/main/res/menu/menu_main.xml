@@ -4,7 +4,9 @@
       tools:context="eu.albertvila.udacity.githubtrending.MainActivity">
     <item
         android:id="@+id/action_settings"
+        android:icon="@drawable/ic_tune_white_24dp"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        app:showAsAction="always"
+        />
 </menu>
