@@ -2,7 +2,7 @@
 <resources>
 
     <string-array name="languages">
-        <item>All languages</item>
+        <item>@string/all_languages</item>
         <item>Java</item>
         <item>JavaScript</item>
         <item>Python</item>

@@ -20,4 +20,7 @@
     <string name="list_item_repo_url_placeholder" translatable="false">Some/Project</string>
     <string name="list_item_repo_description_placeholder" translatable="false">An awesome project!</string>
     <string name="settings_list_header">Choose the repository\'s programming language:</string>
+
+    <string name="all_languages">All languages</string>
+    <string name="default_selected_language" translatable="false">@string/all_languages</string>
 </resources>
