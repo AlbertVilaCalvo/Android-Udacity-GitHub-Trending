@@ -5,9 +5,12 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+
+import timber.log.Timber;
 
 public class DbProvider extends ContentProvider {
 
@@ -56,7 +59,36 @@ public class DbProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+        SQLiteDatabase database = sqLiteOpenHelper.getWritableDatabase();
+        int insertCount = 0;
+        int match = URI_MATCHER.match(uri);
+        switch (match) {
+            case MATCH_ALL_REPOS:
+                database.beginTransaction();
+                try {
+                    for (ContentValues value : values) {
+                        database.insertOrThrow(DbContract.Repo.TABLE_NAME, null, value);
+                        insertCount++;
+                    }
+                    database.setTransactionSuccessful();
+                } catch (Exception e) {
+                    Timber.e(e, "bulkInsert Exception");
+                    database.endTransaction();
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid bulk insert Uri: " + uri);
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        Timber.d("bulkInsert count: %d", insertCount);
+        return insertCount;
+    }
+
+    @Override
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         int deletedRowCount;
         int match = URI_MATCHER.match(uri);
         switch (match) {
@@ -77,7 +109,7 @@ public class DbProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection,
+    public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         int updatedRowCount;
         int match = URI_MATCHER.match(uri);
@@ -99,7 +131,7 @@ public class DbProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
         Cursor cursor;
         int match = URI_MATCHER.match(uri);
@@ -130,7 +162,7 @@ public class DbProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         // Handle requests for the MIME type of the data
         int match = URI_MATCHER.match(uri);
         switch (match) {

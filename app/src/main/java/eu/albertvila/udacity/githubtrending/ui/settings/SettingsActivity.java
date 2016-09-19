@@ -10,7 +10,6 @@ import android.widget.RadioGroup;
 
 import eu.albertvila.udacity.githubtrending.R;
 import eu.albertvila.udacity.githubtrending.data.Settings;
-import timber.log.Timber;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -45,7 +44,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 RadioButton radioButton = (RadioButton) findViewById(checkedId);
                 String language = radioButton.getText().toString();
-                Timber.d("New selected language: %s ", language);
                 Settings.get(SettingsActivity.this).setSelectedLanguage(language);
             }
         });
