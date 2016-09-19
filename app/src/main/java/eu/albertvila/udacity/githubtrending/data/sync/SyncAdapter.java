@@ -43,6 +43,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, final ContentProviderClient contentProviderClient, SyncResult syncResult) {
+        Timber.d("onPerformSync()");
         getHtml()
                 .map(new Function<String, List<String>>() {
                     @Override

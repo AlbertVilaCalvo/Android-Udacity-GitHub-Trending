@@ -1,12 +1,11 @@
 package eu.albertvila.udacity.githubtrending;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
 import com.google.android.gms.ads.MobileAds;
 
+import eu.albertvila.udacity.githubtrending.data.sync.SyncUtils;
 import timber.log.Timber;
 
 /**
@@ -35,19 +34,9 @@ public class App extends Application {
         MobileAds.initialize(this, getString(R.string.admob_app_id));
 
         // We must create an account for the SyncAdapter to run
-        createAccount();
-    }
+        SyncUtils.get(this).addAccountExplicitly();
 
-    private void createAccount() {
-        AccountManager accountManager = AccountManager.get(this);
-
-        Account newAccount = new Account(
-                getString(R.string.app_name),
-                getString(R.string.authenticator_account_type));
-
-        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
-            
-        }
+        SyncUtils.get(this).addPeriodicSync();
     }
 
 }

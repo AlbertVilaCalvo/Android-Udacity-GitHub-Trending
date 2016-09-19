@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
+import eu.albertvila.udacity.githubtrending.data.sync.SyncUtils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity
         setupRecyclerView();
 
         getSupportLoaderManager().initLoader(LOADER_REPOS, null, this);
+
+        SyncUtils.get(this).requestExpeditedSync();
 
         /*
         getHtml()

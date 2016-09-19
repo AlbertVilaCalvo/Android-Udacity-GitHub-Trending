@@ -49,10 +49,10 @@
         <service android:name=".data.sync.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
-                <meta-data
-                    android:name="android.accounts.AccountAuthenticator"
-                    android:resource="@xml/authenticator"/>
             </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
         </service>
 
         <service
