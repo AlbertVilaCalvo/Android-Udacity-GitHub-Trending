@@ -74,6 +74,7 @@ public class DbProvider extends ContentProvider {
                     database.setTransactionSuccessful();
                 } catch (Exception e) {
                     Timber.e(e, "bulkInsert Exception");
+                } finally {
                     database.endTransaction();
                 }
                 break;
