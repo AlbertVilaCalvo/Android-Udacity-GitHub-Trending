@@ -45,17 +45,19 @@ public class ReposCursorAdapter extends RecyclerView.Adapter<ReposCursorAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nameTextView;
+        TextView urlTextView;
+        TextView descriptionTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.list_item_repo_name);
+            urlTextView = (TextView) itemView.findViewById(R.id.list_item_repo_url);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.list_item_repo_description);
         }
 
         public void bind(Cursor cursor) {
-            nameTextView.setText(cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Repo.COLUMN_URL)));
+            urlTextView.setText(cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Repo.COLUMN_URL)));
+            descriptionTextView.setText(cursor.getString(cursor.getColumnIndexOrThrow(DbContract.Repo.COLUMN_DESCRIPTION)));
         }
-
     }
 }

@@ -35,6 +35,7 @@ public class DbContract {
 
         // Columns
         String COLUMN_URL = "url";
+        String COLUMN_DESCRIPTION = "description";
     }
 
 }

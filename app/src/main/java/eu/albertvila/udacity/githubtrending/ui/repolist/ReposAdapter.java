@@ -45,7 +45,7 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.list_item_repo_name);
+            nameTextView = (TextView) itemView.findViewById(R.id.list_item_repo_url);
         }
 
         public void bind(String name) {

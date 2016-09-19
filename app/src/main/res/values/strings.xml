@@ -15,4 +15,8 @@
 
     <!-- Sync Adapter -->
     <string name="authenticator_account_type">account.albertvila.eu</string>
+
+    <!-- list_item_repo.xml placeholders -->
+    <string name="list_item_repo_url_placeholder" translatable="false">Some/Project</string>
+    <string name="list_item_repo_description_placeholder" translatable="false">An awesome project!</string>
 </resources>

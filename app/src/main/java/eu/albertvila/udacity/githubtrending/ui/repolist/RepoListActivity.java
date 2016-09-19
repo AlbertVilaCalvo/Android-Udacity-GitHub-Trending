@@ -47,7 +47,8 @@ public class RepoListActivity extends AppCompatActivity
 
     // Columns to select from DB
     private static final String[] COLUMNS_PROJECTION = {
-            DbContract.Repo.COLUMN_URL
+            DbContract.Repo.COLUMN_URL,
+            DbContract.Repo.COLUMN_DESCRIPTION
     };
 
     RecyclerView recyclerView;

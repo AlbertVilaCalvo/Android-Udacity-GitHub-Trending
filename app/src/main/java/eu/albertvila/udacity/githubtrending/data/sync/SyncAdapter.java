@@ -12,15 +12,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.observers.DefaultObserver;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -44,6 +42,57 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, final ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Timber.d("onPerformSync()");
+
+        // Donwload github.com/trending as HTML String
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://github.com/trending")
+                .build();
+
+        Response response;
+        String html;
+        try {
+            response = client.newCall(request).execute();
+            html = response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        response.body().close();
+
+        Document document = Jsoup.parse(html);
+
+        // Collect urls
+        List<String> urls = new ArrayList<>();
+        Elements urlElements = document.select(".repo-list-name > a");
+        Timber.d("urls size: %d", urlElements.size());
+        for (int i = 0; i < urlElements.size(); i++) {
+            urls.add(urlElements.get(i).attr("href"));
+        }
+        Timber.d("urls %s", urls);
+
+        // Collect descriptions
+        List<String> descriptions = new ArrayList<>();
+        Elements descriptionElements = document.select(".repo-list-description");
+        Timber.d("descriptions size: %d", descriptionElements.size());
+        for (int i = 0; i < descriptionElements.size(); i++) {
+            descriptions.add(descriptionElements.get(i).text());
+        }
+        Timber.d("descriptions %s", descriptions);
+
+        // Delete all items in DB
+        getContext().getContentResolver().delete(DbContract.Repo.CONTENT_URI, null, null);
+
+        // Save new repos to DB
+        for (int i = 0; i < urls.size(); i++) {
+            ContentValues values = new ContentValues();
+            values.put(DbContract.Repo.COLUMN_URL, urls.get(i));
+            values.put(DbContract.Repo.COLUMN_DESCRIPTION, descriptions.get(i));
+            getContext().getContentResolver().insert(DbContract.Repo.CONTENT_URI, values);
+        }
+
+        /*
         getHtml()
                 .map(new Function<String, List<String>>() {
                     @Override
@@ -85,6 +134,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                         Timber.i("onComplete");
                     }
                 });
+        */
     }
 
     // Gets github.com/trending as String
