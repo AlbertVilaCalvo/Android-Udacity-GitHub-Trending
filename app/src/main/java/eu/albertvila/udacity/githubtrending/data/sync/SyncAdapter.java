@@ -103,37 +103,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         getContext().getContentResolver().bulkInsert(DbContract.Repo.CONTENT_URI, contentValuesArray);
 
         /*
-        // Collect urls
-        List<String> urls = new ArrayList<>();
-        Elements urlElements = document.select(".repo-list-name > a");
-        Timber.d("urls size: %d", urlElements.size());
-        for (int i = 0; i < urlElements.size(); i++) {
-            urls.add(urlElements.get(i).attr("href"));
-        }
-        Timber.d("urls %s", urls);
-
-        // Collect descriptions
-        List<String> descriptions = new ArrayList<>();
-        Elements descriptionElements = document.select(".repo-list-description");
-        Timber.d("descriptions size: %d", descriptionElements.size());
-        for (int i = 0; i < descriptionElements.size(); i++) {
-            descriptions.add(descriptionElements.get(i).text());
-        }
-        Timber.d("descriptions %s", descriptions);
-
-        // Delete all items in DB
-        getContext().getContentResolver().delete(DbContract.Repo.CONTENT_URI, null, null);
-
-        // Save new repos to DB
-        for (int i = 0; i < urls.size(); i++) {
-            ContentValues values = new ContentValues();
-            values.put(DbContract.Repo.COLUMN_URL, urls.get(i));
-            values.put(DbContract.Repo.COLUMN_DESCRIPTION, descriptions.get(i));
-            getContext().getContentResolver().insert(DbContract.Repo.CONTENT_URI, values);
-        }
-        */
-
-        /*
         getHtml()
                 .map(new Function<String, List<String>>() {
                     @Override
