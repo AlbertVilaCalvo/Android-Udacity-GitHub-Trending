@@ -3,6 +3,7 @@ package eu.albertvila.udacity.githubtrending.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 
 import eu.albertvila.udacity.githubtrending.R;
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
@@ -54,6 +55,7 @@ public class Settings {
         return getSelectedLanguage().equals(language);
     }
 
+    @NonNull
     public String getGitHubUrl() {
         String language = getSelectedLanguage();
         if (language.equals(context.getString(R.string.all_languages))) {

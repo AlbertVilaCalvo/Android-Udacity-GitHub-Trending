@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -36,6 +37,8 @@ public class RepoListActivity extends AppCompatActivity
     RecyclerView recyclerView;
     ReposCursorAdapter adapter;
 
+    View progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,28 +47,16 @@ public class RepoListActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        recyclerView = (RecyclerView) findViewById(R.id.repo_list_recyclerView);
+        progress = findViewById(R.id.repo_list_progress);
+
+        showProgress();
+
         loadBannerAd();
 
         setupRecyclerView();
 
         getSupportLoaderManager().initLoader(LOADER_REPOS, null, this);
-    }
-
-    private void loadBannerAd() {
-        AdView adView = (AdView) findViewById(R.id.repo_list_adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                // https://firebase.google.com/docs/admob/android/targeting#test_ads
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("D7A3AA3A1DAE36977EE1652523B33CBD")
-                .build();
-        adView.loadAd(adRequest);
-    }
-
-    private void setupRecyclerView() {
-        adapter = new ReposCursorAdapter();
-        recyclerView = (RecyclerView) findViewById(R.id.repo_list_recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -94,13 +85,13 @@ public class RepoListActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data == null || data.getCount() == 0) {
             Timber.d("onLoadFinished() - data is null or empty");
+            showProgress();
             adapter.swapCursor(null);
-            // TODO show progress
-
             // download data
             SyncUtils.get(this).requestExpeditedSync();
         } else {
             Timber.d("onLoadFinished() - data OK");
+            showRecyclerView();
             adapter.swapCursor(data);
         }
     }
@@ -109,6 +100,33 @@ public class RepoListActivity extends AppCompatActivity
     public void onLoaderReset(Loader<Cursor> loader) {
         Timber.d("onLoaderReset()");
         adapter.swapCursor(null);
+    }
+
+    private void loadBannerAd() {
+        AdView adView = (AdView) findViewById(R.id.repo_list_adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                // https://firebase.google.com/docs/admob/android/targeting#test_ads
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("D7A3AA3A1DAE36977EE1652523B33CBD")
+                .build();
+        adView.loadAd(adRequest);
+    }
+
+    private void setupRecyclerView() {
+        adapter = new ReposCursorAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void showRecyclerView() {
+        recyclerView.setVisibility(View.VISIBLE);
+        progress.setVisibility(View.GONE);
+
+    }
+
+    private void showProgress() {
+        recyclerView.setVisibility(View.GONE);
+        progress.setVisibility(View.VISIBLE);
     }
 
     @Override
