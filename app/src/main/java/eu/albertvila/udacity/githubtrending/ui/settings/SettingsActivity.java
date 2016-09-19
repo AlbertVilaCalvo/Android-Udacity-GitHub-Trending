@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import eu.albertvila.udacity.githubtrending.R;
+import timber.log.Timber;
 
 public class SettingsActivity extends AppCompatActivity {
-
-    RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,11 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        radioGroup = (RadioGroup) findViewById(R.id.settings_radioGroup);
+        setupRadioGroup();
+    }
+
+    private void setupRadioGroup() {
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.settings_radioGroup);
 
         String[] languages = getResources().getStringArray(R.array.languages);
 
@@ -29,8 +33,17 @@ public class SettingsActivity extends AppCompatActivity {
             RadioButton radioButton = new RadioButton(this);
             radioButton.setText(language);
             radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.list_item_language_size));
+            radioButton.setId(View.generateViewId());
             radioGroup.addView(radioButton);
         }
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                Timber.d("Selected language: %s ", radioButton.getText());
+            }
+        });
     }
 
 }
