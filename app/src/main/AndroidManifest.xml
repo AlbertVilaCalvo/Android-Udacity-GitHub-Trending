@@ -9,6 +9,7 @@
     <!-- Required to enable our SyncAdapter after it's created.
      Need this permission in order to set periodic sync adapter runs using addPeriodicSync().
      Not required to call requestSync() -->
+    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 

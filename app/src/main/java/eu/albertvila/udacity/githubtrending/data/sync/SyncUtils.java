@@ -69,12 +69,18 @@ public class SyncUtils {
                 account,
                 context.getString(R.string.content_provider_authority),
                 Bundle.EMPTY,
-                60 * 60 * 1 // every X hours
+                60 * 60 * 6 // every X hours
         );
     }
 
     public void requestExpeditedSync() {
         Timber.d("requestExpeditedSync()");
+
+        boolean isSyncActive = ContentResolver.isSyncActive(account, DbContract.AUTHORITY);
+        if (isSyncActive) {
+            Timber.d("requestExpeditedSync() ContentResolver.isSyncActive() is true -> abort");
+            return;
+        }
 
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -84,6 +90,7 @@ public class SyncUtils {
         // get the latest URL value in the SyncAdapter because it runs in a different process
         bundle.putString(GITHUB_URL_KEY, Settings.get(context).getGitHubUrl());
 
+        Timber.d("requestExpeditedSync() ContentResolver.requestSync()");
         ContentResolver.requestSync(account, DbContract.AUTHORITY, bundle);
     }
 
