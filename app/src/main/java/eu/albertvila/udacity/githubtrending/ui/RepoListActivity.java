@@ -39,7 +39,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity
+public class RepoListActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int LOADER_REPOS = 0;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_repo_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadBannerAd() {
-        AdView adView = (AdView) findViewById(R.id.main_adView);
+        AdView adView = (AdView) findViewById(R.id.repo_list_adView);
         AdRequest adRequest = new AdRequest.Builder()
                 // https://firebase.google.com/docs/admob/android/targeting#test_ads
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setupRecyclerView() {
         adapter = new ReposCursorAdapter();
-        recyclerView = (RecyclerView) findViewById(R.id.main_recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.repo_list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_repo_list, menu);
         return true;
     }
 
