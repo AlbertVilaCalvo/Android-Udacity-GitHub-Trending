@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="languages">
+        <item>All languages</item>
+        <item>Java</item>
+        <item>JavaScript</item>
+        <item>Python</item>
+        <item>Ruby</item>
+        <item>Swift</item>
+        <item>Objective-C</item>
+        <item>Elixir</item>
+        <item>Erlang</item>
+        <item>Go</item>
+        <item>C</item>
+    </string-array>
+
+</resources>
