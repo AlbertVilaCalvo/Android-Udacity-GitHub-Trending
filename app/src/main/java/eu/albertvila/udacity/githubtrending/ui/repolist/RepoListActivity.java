@@ -49,44 +49,6 @@ public class RepoListActivity extends AppCompatActivity
         setupRecyclerView();
 
         getSupportLoaderManager().initLoader(LOADER_REPOS, null, this);
-
-        /*
-        getHtml()
-                .subscribeOn(Schedulers.io())
-                .map(new Function<String, List<String>>() {
-                    @Override
-                    public List<String> apply(String html) throws Exception {
-                        Document document = Jsoup.parse(html);
-                        Elements elements = document.select(".repo-list-name > a");
-                        List<String> urls = new ArrayList<>();
-                        for (int i = 0; i < elements.size(); i++) {
-                            urls.add(elements.get(i).attr("href"));
-                        }
-                        Timber.d("urls %s", urls);
-                        return urls;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<List<String>>() {
-                    @Override
-                    public void onNext(List<String> value) {
-                        Timber.d("onNext: %s", value);
-                        repos.clear();
-                        repos.addAll(value);
-                        reposAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.e(e, "onError");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Timber.i("onComplete");
-                    }
-                });
-        */
     }
 
     private void loadBannerAd() {
