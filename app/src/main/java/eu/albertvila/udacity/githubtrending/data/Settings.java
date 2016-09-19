@@ -46,4 +46,15 @@ public class Settings {
         return getSelectedLanguage().equals(language);
     }
 
+    public String getGitHubUrl() {
+        String language = getSelectedLanguage();
+        if (language.equals(context.getString(R.string.all_languages))) {
+            language = "";
+        } else {
+            language = language.replace(' ', '-');
+            language = language.toLowerCase();
+        }
+        return "https://github.com/trending/" + language;
+    }
+
 }

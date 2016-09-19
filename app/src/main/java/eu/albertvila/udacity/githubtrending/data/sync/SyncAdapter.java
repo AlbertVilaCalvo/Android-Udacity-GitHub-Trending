@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import eu.albertvila.udacity.githubtrending.data.Settings;
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
@@ -43,10 +44,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle bundle, String s, final ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Timber.d("onPerformSync()");
 
+        String gitHubUrl = Settings.get(getContext()).getGitHubUrl();
+
+        Timber.d("onPerformSync() GitHub Url: %s", gitHubUrl);
+
         // Donwload github.com/trending as HTML String
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://github.com/trending")
+                .url(gitHubUrl)
                 .build();
 
         Response response;
