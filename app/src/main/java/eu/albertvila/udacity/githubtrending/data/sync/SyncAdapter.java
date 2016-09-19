@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -66,8 +67,35 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         response.body().close();
 
-        Document document = Jsoup.parse(html);
+        // Delete all items in DB
+        getContext().getContentResolver().delete(DbContract.Repo.CONTENT_URI, null, null);
 
+        Document document = Jsoup.parse(html);
+        Elements repos = document.select(".repo-list-item");
+        Timber.d("repos size: %d", repos.size());
+
+        List<ContentValues> contentValuesList = new ArrayList<>();
+        for (Element repo : repos) {
+            ContentValues values = new ContentValues();
+
+            String url = repo.select(".repo-list-name > a").get(0).attr("href");
+            values.put(DbContract.Repo.COLUMN_URL, url);
+
+            // Some repos don't have description
+            Elements descriptions = repo.select(".repo-list-description");
+            String description = "";
+            if (descriptions.size() > 0) {
+                description = descriptions.get(0).text();
+            }
+            values.put(DbContract.Repo.COLUMN_DESCRIPTION, description);
+
+            contentValuesList.add(values);
+        }
+
+        ContentValues[] contentValuesArray = contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
+        getContext().getContentResolver().bulkInsert(DbContract.Repo.CONTENT_URI, contentValuesArray);
+
+        /*
         // Collect urls
         List<String> urls = new ArrayList<>();
         Elements urlElements = document.select(".repo-list-name > a");
@@ -96,6 +124,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             values.put(DbContract.Repo.COLUMN_DESCRIPTION, descriptions.get(i));
             getContext().getContentResolver().insert(DbContract.Repo.CONTENT_URI, values);
         }
+        */
 
         /*
         getHtml()
