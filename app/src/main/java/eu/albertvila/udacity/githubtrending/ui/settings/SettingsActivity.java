@@ -1,4 +1,4 @@
-package eu.albertvila.udacity.githubtrending.ui;
+package eu.albertvila.udacity.githubtrending.ui.settings;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

@@ -1,4 +1,4 @@
-package eu.albertvila.udacity.githubtrending.ui;
+package eu.albertvila.udacity.githubtrending.ui.repolist;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -28,6 +28,7 @@ import java.util.concurrent.Callable;
 import eu.albertvila.udacity.githubtrending.R;
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import eu.albertvila.udacity.githubtrending.data.sync.SyncUtils;
+import eu.albertvila.udacity.githubtrending.ui.settings.SettingsActivity;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
