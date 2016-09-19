@@ -126,72 +126,6 @@ public class RepoListActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
     }
 
-    // Downloads github.com/trending as String
-    private Observable<String> getHtml() {
-        final OkHttpClient client = new OkHttpClient();
-        final Request request = new Request.Builder()
-                .url("https://github.com/trending")
-                .build();
-
-        return Observable.fromCallable(new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                Response response = client.newCall(request).execute();
-                String html = response.body().string();
-                response.body().close();
-                return html;
-            }
-        });
-    }
-
-    // Gets the HTML, parses it and saves the data to the DB
-    private void getHtmlParseAndSaveItToDb() {
-        getHtml()
-                .subscribeOn(Schedulers.io())
-                .map(new Function<String, List<String>>() {
-                    @Override
-                    public List<String> apply(String html) throws Exception {
-                        Document document = Jsoup.parse(html);
-                        Elements elements = document.select(".repo-list-name > a");
-                        List<String> urls = new ArrayList<>();
-                        for (int i = 0; i < elements.size(); i++) {
-                            urls.add(elements.get(i).attr("href"));
-                        }
-                        Timber.d("urls %s", urls);
-                        return urls;
-                    }
-                })
-                .doOnNext(new Consumer<List<String>>() {
-                    @Override
-                    public void accept(List<String> strings) throws Exception {
-                        // Delete all items in DB
-                        getContentResolver().delete(DbContract.Repo.CONTENT_URI, null, null);
-                        // Save to DB
-                        for (int i = 0; i < strings.size(); i++) {
-                            ContentValues values = new ContentValues();
-                            values.put(DbContract.Repo.COLUMN_URL, strings.get(i));
-                            getContentResolver()
-                                    .insert(DbContract.Repo.CONTENT_URI, values);
-                        }
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<List<String>>() {
-                    @Override
-                    public void onNext(List<String> value) {
-                        Timber.d("onNext: %s", value);
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.e(e, "onError");
-                    }
-                    @Override
-                    public void onComplete() {
-                        Timber.i("onComplete");
-                    }
-                });
-    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Loader<Cursor> loader;
@@ -217,17 +151,19 @@ public class RepoListActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data == null || data.getCount() == 0) {
-            Timber.d("onLoadFinished() null or empty");
+            Timber.d("onLoadFinished() - data is null or empty");
             adapter.swapCursor(null);
             // TODO show progress
             // TODO download data
         } else {
+            Timber.d("onLoadFinished() - data OK");
             adapter.swapCursor(data);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        Timber.d("onLoaderReset()");
         adapter.swapCursor(null);
     }
 
