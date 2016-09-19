@@ -1,6 +1,5 @@
 package eu.albertvila.udacity.githubtrending.ui.repolist;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,27 +16,10 @@ import android.view.MenuItem;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-
 import eu.albertvila.udacity.githubtrending.R;
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import eu.albertvila.udacity.githubtrending.data.sync.SyncUtils;
 import eu.albertvila.udacity.githubtrending.ui.settings.SettingsActivity;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.observers.DefaultObserver;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import timber.log.Timber;
 
 public class RepoListActivity extends AppCompatActivity
@@ -67,8 +49,6 @@ public class RepoListActivity extends AppCompatActivity
         setupRecyclerView();
 
         getSupportLoaderManager().initLoader(LOADER_REPOS, null, this);
-
-        SyncUtils.get(this).requestExpeditedSync();
 
         /*
         getHtml()
@@ -154,7 +134,9 @@ public class RepoListActivity extends AppCompatActivity
             Timber.d("onLoadFinished() - data is null or empty");
             adapter.swapCursor(null);
             // TODO show progress
-            // TODO download data
+
+            // download data
+            SyncUtils.get(this).requestExpeditedSync();
         } else {
             Timber.d("onLoadFinished() - data OK");
             adapter.swapCursor(data);

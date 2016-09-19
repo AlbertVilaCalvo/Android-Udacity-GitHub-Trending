@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import eu.albertvila.udacity.githubtrending.R;
+import eu.albertvila.udacity.githubtrending.data.db.DbContract;
+import timber.log.Timber;
 
 /**
  * Created by Albert Vila Calvo on 19/9/16.
@@ -39,7 +41,13 @@ public class Settings {
     }
 
     public void setSelectedLanguage(String language) {
+        Timber.d("Set selected language to %s", language);
         prefs().edit().putString(SELECTED_LANGUAGE_KEY, language).apply();
+
+        // Deleting all data will trigger a manual SyncAdapter sync when we go back to
+        // RepoListActivity - see RepoListActivity.onLoadFinished()
+        Timber.d("Delete all DB data");
+        context.getContentResolver().delete(DbContract.Repo.CONTENT_URI, null, null);
     }
 
     public boolean isSelectedLanguage(String language) {
