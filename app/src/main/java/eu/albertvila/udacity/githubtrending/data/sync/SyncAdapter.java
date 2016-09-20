@@ -17,12 +17,10 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import eu.albertvila.udacity.githubtrending.R;
 import eu.albertvila.udacity.githubtrending.data.Settings;
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
-import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -162,6 +160,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     // Gets github.com/trending as String
+    /*
     private Observable<String> getHtml() {
         final OkHttpClient client = new OkHttpClient();
         final Request request = new Request.Builder()
@@ -178,5 +177,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
         });
     }
+    */
 
 }
