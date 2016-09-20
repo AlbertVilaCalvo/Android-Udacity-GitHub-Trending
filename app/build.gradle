@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'udacity'
+            keyPassword 'password'
+            storeFile file("$rootDir/keystore.jks")
+            storePassword 'password'
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
-
     defaultConfig {
         applicationId "eu.albertvila.udacity.githubtrending"
         minSdkVersion 21
@@ -15,6 +22,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
