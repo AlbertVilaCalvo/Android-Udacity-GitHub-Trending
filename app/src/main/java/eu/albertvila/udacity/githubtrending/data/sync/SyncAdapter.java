@@ -87,7 +87,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             ContentValues values = new ContentValues();
 
             String url = repo.select(".repo-list-name > a").get(0).attr("href");
-            values.put(DbContract.Repo.COLUMN_URL, url);
+            // We remove the first '/'
+            values.put(DbContract.Repo.COLUMN_URL, url.substring(1));
 
             // Some repos don't have description
             Elements descriptions = repo.select(".repo-list-description");
