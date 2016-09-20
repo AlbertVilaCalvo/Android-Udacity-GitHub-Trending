@@ -4,7 +4,9 @@ import android.app.Application;
 
 import com.facebook.stetho.Stetho;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
+import eu.albertvila.udacity.githubtrending.data.Settings;
 import eu.albertvila.udacity.githubtrending.data.sync.SyncUtils;
 import timber.log.Timber;
 
@@ -37,6 +39,13 @@ public class App extends Application {
         SyncUtils.get(this).addAccountExplicitly();
 
         SyncUtils.get(this).addPeriodicSync();
+
+        // Set the selected programming language as a user property with Firebase Analytics
+        // We do this here in case the user never changes the default programming language
+        FirebaseAnalytics.getInstance(this).setUserProperty(
+                getString(R.string.analytics_programming_language_key),
+                Settings.get(this).getSelectedLanguage()
+        );
     }
 
 }

@@ -17,4 +17,7 @@
     <!-- IMPORTANT: THE ACTION ON THE MANIFEST CAN'T BE AN STRING RESOURCE. WE MUST MAKE SURE
     THAT THE STRING HERE AND THE ONE IN THE MANIFEST ARE THE SAME! -->
     <string name="action_data_updated" translatable="false">eu.albertvila.udacity.githubtrending.ACTION_DATA_UPDATED</string>
+
+    <!-- Firebase Analytics Keys -->
+    <string name="analytics_programming_language_key">programming_language</string>
 </resources>

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import eu.albertvila.udacity.githubtrending.R;
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import timber.log.Timber;
@@ -44,6 +46,12 @@ public class Settings {
     public void setSelectedLanguage(String language) {
         Timber.d("Set selected language to %s", language);
         prefs().edit().putString(SELECTED_LANGUAGE_KEY, language).apply();
+
+        // Set the selected programming language as a user property with Firebase Analytics
+        FirebaseAnalytics.getInstance(context).setUserProperty(
+                context.getString(R.string.analytics_programming_language_key),
+                Settings.get(context).getSelectedLanguage()
+        );
 
         // Deleting all data will trigger a manual SyncAdapter sync when we go back to
         // RepoListActivity - see RepoListActivity.onLoadFinished()
