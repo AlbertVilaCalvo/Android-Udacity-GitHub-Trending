@@ -1,4 +1,8 @@
 <resources>
+    <!-- Website where we get the trending repositories -->
+    <string name="github_trending_base_url">https://github.com/trending/%1$s</string>
+    <string name="github_website_base_url">https://github.com/%1$s</string>
+
     <!-- ApMob app ID -->
     <string name="admob_app_id" translatable="false">ca-app-pub-6563623154424350~6312844227</string>
 

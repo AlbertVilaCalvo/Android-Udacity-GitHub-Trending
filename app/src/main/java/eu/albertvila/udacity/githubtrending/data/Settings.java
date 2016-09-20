@@ -72,7 +72,7 @@ public class Settings {
             language = language.replace(' ', '-');
             language = language.toLowerCase();
         }
-        return "https://github.com/trending/" + language;
+        return context.getString(R.string.github_trending_base_url, language);
     }
 
 }
