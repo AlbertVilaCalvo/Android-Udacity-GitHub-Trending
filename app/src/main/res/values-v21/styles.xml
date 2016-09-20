@@ -6,4 +6,10 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="SettingsTheme" parent="AppTheme.NoActionBar">
+        <item name="android:windowEnterTransition">@transition/settings_enter</item>
+        <item name="android:windowReturnTransition">@transition/settings_return</item>
+    </style>
+
 </resources>

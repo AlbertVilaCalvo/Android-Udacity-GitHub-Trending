@@ -3,6 +3,7 @@ package eu.albertvila.udacity.githubtrending.ui.repolist;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -145,8 +146,10 @@ public class RepoListActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            // Activity transition
+            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle();
             Intent i = new Intent(this, SettingsActivity.class);
-            startActivity(i);
+            startActivity(i, bundle);
             return true;
         }
 
