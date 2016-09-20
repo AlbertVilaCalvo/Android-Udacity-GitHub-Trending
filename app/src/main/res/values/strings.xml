@@ -3,19 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
 
-    <!-- ApMob app ID -->
-    <string name="admob_app_id">ca-app-pub-6563623154424350~6312844227</string>
-
-    <!-- This is a testing ad ID. It is against AdMob policy to click on your own live ads during
-    development and testing. Should be replaced with a real ID. -->
-    <string name="test_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-
-    <!-- ContentProvider authority. Must be the same string than DbContract.AUTHORITY -->
-    <string name="content_provider_authority">eu.albertvila.udacity.githubtrending.provider</string>
-
-    <!-- Sync Adapter -->
-    <string name="authenticator_account_type">account.albertvila.eu</string>
-
     <!-- list_item_repo.xml placeholders -->
     <string name="list_item_repo_url_placeholder" translatable="false">Some/Project</string>
     <string name="list_item_repo_description_placeholder" translatable="false">An awesome project!</string>
