@@ -32,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
         for (String language : languages) {
             RadioButton radioButton = new RadioButton(this);
             radioButton.setText(language);
-            radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.list_item_language_size));
+            radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.list_item_language_text_size));
             radioButton.setId(View.generateViewId());
             // Check if it's the current selected language
             radioButton.setChecked(Settings.get(this).isSelectedLanguage(language));
