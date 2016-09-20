@@ -69,9 +69,9 @@ public class RepoListActivity extends AppCompatActivity
                         this,
                         DbContract.Repo.CONTENT_URI,
                         COLUMNS_PROJECTION,
-                        null, // all
+                        null, // all rows
                         null,
-                        null // default order
+                        null  // default order
                 );
                 break;
             default:

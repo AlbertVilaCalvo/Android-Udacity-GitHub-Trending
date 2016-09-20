@@ -5,6 +5,7 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import eu.albertvila.udacity.githubtrending.R;
 import eu.albertvila.udacity.githubtrending.data.Settings;
 import eu.albertvila.udacity.githubtrending.data.db.DbContract;
 import io.reactivex.Observable;
@@ -77,6 +79,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         // Delete all items in DB
         getContext().getContentResolver().delete(DbContract.Repo.CONTENT_URI, null, null);
 
+        // Parse HTML and obtain repositories URL and description
         Document document = Jsoup.parse(html);
         Elements repos = document.select(".repo-list-item");
         Timber.d("repos size: %d", repos.size());
@@ -99,8 +102,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             contentValuesList.add(values);
         }
 
+        // Insert new repos into DB
         ContentValues[] contentValuesArray = contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
         getContext().getContentResolver().bulkInsert(DbContract.Repo.CONTENT_URI, contentValuesArray);
+
+
+        // UPDATE THE WIDGET BY SENDING A BROADCAST. The broadcast will be received by WidgetProvider
+        String actionDataUpdated = getContext().getString(R.string.action_data_updated);
+        // Setting the package ensures that only components in our app will receive the broadcast
+        Intent dataUpdatedIntent =
+                new Intent(actionDataUpdated).setPackage(getContext().getPackageName());
+        getContext().sendBroadcast(dataUpdatedIntent);
+
 
         /*
         getHtml()

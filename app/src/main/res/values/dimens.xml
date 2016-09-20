@@ -7,4 +7,11 @@
 
     <dimen name="list_item_vertical_margin">8dp</dimen>
     <dimen name="list_item_language_text_size">16sp</dimen>
+
+    <!-- WidgetProvider -->
+    <!-- 70 * n - 30 dp -->
+    <!-- 70 * 3 - 30 = 180 dp -->
+    <dimen name="widget_default_width">180dp</dimen>
+    <!-- 70 * 2 - 30 = 110 dp -->
+    <dimen name="widget_default_height">110dp</dimen>
 </resources>

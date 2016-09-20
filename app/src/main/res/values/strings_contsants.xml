@@ -13,6 +13,6 @@
     <string name="authenticator_account_type" translatable="false">account.albertvila.eu</string>
 
     <!-- Widget broadcast action. The SyncAdapter will send a broadcast with this action type
-    to the widget every time that it syncs and gets new data -->
+    to the widget WidgetProvider every time that it syncs and gets new data -->
     <string name="action_data_updated" translatable="false">eu.albertvila.udacity.githubtrending.ACTION_DATA_UPDATED</string>
 </resources>

@@ -20,6 +20,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".ui.repolist.RepoListActivity"
             android:label="@string/app_name"
@@ -30,6 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -40,6 +42,7 @@
                 android:value=".ui.repolist.RepoListActivity"/>
         </activity>
 
+        <!-- Content Provider -->
         <provider
             android:name=".data.db.DbProvider"
             android:authorities="@string/content_provider_authority"
@@ -47,6 +50,7 @@
             android:syncable="true">
         </provider>
 
+        <!-- Sync Adapter -->
         <service android:name=".data.sync.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
@@ -55,7 +59,6 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator"/>
         </service>
-
         <service
             android:name=".data.sync.SyncService"
             android:exported="true"
@@ -67,6 +70,25 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
+
+        <!-- Widget -->
+        <receiver android:name=".ui.widget.WidgetProvider" >
+            <intent-filter>
+                <!-- APPWIDGET_UPDATE is required. Is sent by the AppWidgetManager -->
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <!-- Our SyncAdapter will send a broadcast every time it updates the data inside
+                the ContentProvider -->
+                <!-- https://www.youtube.com/watch?v=DJsNmS-PvD8 -->
+                <action android:name="@string/action_data_updated" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/widget" />
+        </receiver>
+        <!-- https://www.youtube.com/watch?v=9GyoNEbouYc -->
+        <service
+            android:name=".ui.widget.WidgetRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
     </application>
 
 </manifest>
