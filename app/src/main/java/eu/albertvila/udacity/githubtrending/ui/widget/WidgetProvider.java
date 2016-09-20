@@ -10,6 +10,7 @@ import android.widget.RemoteViews;
 
 import eu.albertvila.udacity.githubtrending.R;
 import eu.albertvila.udacity.githubtrending.ui.repolist.RepoListActivity;
+import timber.log.Timber;
 
 /**
  * Created by Albert Vila Calvo on 20/9/16.
@@ -21,6 +22,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        Timber.d("WidgetProvider onUpdate()");
         for (int appWidgetId : appWidgetIds) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 
@@ -40,11 +42,14 @@ public class WidgetProvider extends AppWidgetProvider {
     // the ContentProvider. See:
     // https://www.youtube.com/watch?v=DJsNmS-PvD8
     // https://www.youtube.com/watch?v=9GyoNEbouYc
+    // https://developer.android.com/guide/topics/appwidgets/index.html#fresh
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent); // DO NOT REMOVE THIS LINE
+        Timber.d("WidgetProvider onReceive() action: %s", intent.getAction());
 
         if (context.getString(R.string.action_data_updated).equals(intent.getAction())) {
+            Timber.d("WidgetProvider has received ACTION_DATA_UPDATED broadcast");
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds =
                     appWidgetManager.getAppWidgetIds(new ComponentName(context, getClass()));

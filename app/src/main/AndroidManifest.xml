@@ -79,7 +79,9 @@
                 <!-- Our SyncAdapter will send a broadcast every time it updates the data inside
                 the ContentProvider -->
                 <!-- https://www.youtube.com/watch?v=DJsNmS-PvD8 -->
-                <action android:name="@string/action_data_updated" />
+                <!-- IMPORTANT: WE CAN'T USE THE @string/action_data_updated STRING RESOURCE HERE!
+                WE MUST MAKE SURE THAT THE STRING HERE AND @string/action_data_updated ARE THE SAME! -->
+                <action android:name="eu.albertvila.udacity.githubtrending.ACTION_DATA_UPDATED" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                        android:resource="@xml/widget" />

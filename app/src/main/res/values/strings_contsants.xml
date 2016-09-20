@@ -14,5 +14,7 @@
 
     <!-- Widget broadcast action. The SyncAdapter will send a broadcast with this action type
     to the widget WidgetProvider every time that it syncs and gets new data -->
+    <!-- IMPORTANT: THE ACTION ON THE MANIFEST CAN'T BE AN STRING RESOURCE. WE MUST MAKE SURE
+    THAT THE STRING HERE AND THE ONE IN THE MANIFEST ARE THE SAME! -->
     <string name="action_data_updated" translatable="false">eu.albertvila.udacity.githubtrending.ACTION_DATA_UPDATED</string>
 </resources>

@@ -113,6 +113,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Intent dataUpdatedIntent =
                 new Intent(actionDataUpdated).setPackage(getContext().getPackageName());
         getContext().sendBroadcast(dataUpdatedIntent);
+        Timber.d("Send broadcast to WidgetProvider");
 
 
         /*
