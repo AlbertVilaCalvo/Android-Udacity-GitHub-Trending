@@ -54,8 +54,9 @@ public class SyncUtils {
     public void addPeriodicSync() {
         Timber.d("addPeriodicSync()");
 
-        // No need to call ContentResolver.setIsSyncable(newAccount, AUTHORITY, 1) because we
-        // added android:syncable="true" in our <provider> element in the manifest
+        // We should not no need to call ContentResolver.setIsSyncable(newAccount, AUTHORITY, 1)
+        // because we added android:syncable="true" in our <provider> element in the manifest
+        ContentResolver.setIsSyncable(account, context.getString(R.string.content_provider_authority), 1);
 
         // http://stackoverflow.com/a/20398983/4034572
         // It seems that addPeriodicSync() needs setSyncAutomatically()
@@ -69,7 +70,7 @@ public class SyncUtils {
                 account,
                 context.getString(R.string.content_provider_authority),
                 Bundle.EMPTY,
-                60 * 60 * 6 // every X hours
+                60 * 60 * 12 // Syncs every 12 hours
         );
     }
 
