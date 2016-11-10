@@ -79,19 +79,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         // Parse HTML and obtain repositories URL and description
         Document document = Jsoup.parse(html);
-        Elements repos = document.select(".repo-list-item");
+        Elements repos = document.select("li.col-12.d-block");
         Timber.d("repos size: %d", repos.size());
 
         List<ContentValues> contentValuesList = new ArrayList<>();
         for (Element repo : repos) {
             ContentValues values = new ContentValues();
 
-            String url = repo.select(".repo-list-name > a").get(0).attr("href");
+            String url = repo.select("div.d-inline-block a").get(0).attr("href");
             // We remove the first '/'
             values.put(DbContract.Repo.COLUMN_URL, url.substring(1));
 
             // Some repos don't have description
-            Elements descriptions = repo.select(".repo-list-description");
+            Elements descriptions = repo.select("div.py-1");
             String description = "";
             if (descriptions.size() > 0) {
                 description = descriptions.get(0).text();
