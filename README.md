@@ -1,6 +1,6 @@
 # GitHub Trending
 
-Final project of the Udacity Android Developer Nanodegree. 
+Final project of the Udacity's [Android Developer Nanodegree](https://www.udacity.com/course/android-developer-nanodegree-by-google--nd801).
 
 This Android app displays the trending GitHub repositories (the same you can find in [https://github.com/trending](https://github.com/trending)).
 
@@ -10,16 +10,16 @@ It implements a Sync Adapter that fetches data periodically and stores it into a
 
 #### Main Activity
 
-![Main Activity](/screenshots/repolist-RepoListActivity-11102016181618.png?raw=true "Main Activity")
+<img src="screenshots/repolist-RepoListActivity-11102016181618.png" width="500px" title="Main Activity" alt="Main Activity">
 
-<p></p>
+<br>
 
 #### Home-Screen Collection Widget
 
-![Home-Screen Collection Widget](/screenshots/launcher2-Launcher-11102016182457.png?raw=true "Home-Screen Collection Widget")
+<img src="screenshots/launcher2-Launcher-11102016182457.png" width="500px" title="Home-Screen Collection Widget" alt="Home-Screen Collection Widget">
 
-<p></p>
+<br>
 
 #### Settings Activity
 
-![Settings Activity](/screenshots/repolist-RepoListActivity-11102016181629.png?raw=true "Settings Activity")
+<img src="screenshots/repolist-RepoListActivity-11102016181629.png" width="500px" title="Settings Activity" alt="Settings Activity">
